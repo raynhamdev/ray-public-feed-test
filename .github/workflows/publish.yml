@@ -28,7 +28,6 @@ jobs:
           key: ${{ runner.os }}-${{ hashFiles('**/pnpm-lock.yaml') }}
           restore-keys: |
             ${{ runner.os }}-
-
       - uses: pnpm/action-setup@v2.0.1
         with:
           version: 6.15.2
@@ -37,7 +36,6 @@ jobs:
       - run: |
           pnpm run build
           pnpm run test
-
       - uses: changesets/action@master
         with:
           version: pnpm run ci:version
@@ -69,7 +67,6 @@ jobs:
           key: ${{ runner.os }}-${{ hashFiles('**/pnpm-lock.yaml') }}
           restore-keys: |
             ${{ runner.os }}-
-
       - uses: pnpm/action-setup@v2.0.1
         with:
           version: 6.15.2
@@ -80,7 +77,7 @@ jobs:
 
       - uses: changesets/action@master
         with:
-          publish: pnpm run ci:publish
+          publish: pnpm run ci:publish -- -- --packagePath ./dist/* --feedUrl ${{ secrets.STEP_PACKAGE_FEED_URL }} --apiKey ${{ secrets.STEP_PACKAGE_FEED_API_KEY }} --ignoreExistingPackageErrors
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
